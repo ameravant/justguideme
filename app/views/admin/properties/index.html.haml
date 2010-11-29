@@ -1,0 +1,18 @@
+%h1= large_icon('Write') + ' ' + yield(:meta_title).strip
+
+%div.box
+  .float-right= render :partial => "/shared/search"
+  %span.hmenu
+    = icon "Plus", new_admin_property_path
+    = link_to "Add a Property", new_admin_property_path
+  = clear
+  
+%table.full-width
+  %tr
+    %th Location
+    %th Images
+    %th Options
+  - for property in @properties
+    %tr{ :class => cycle('odd','even') }
+      %td= link_to("#{property.address}, #{property.city}, #{property.state} #{property.zip}", edit_admin_property_path(property))
+      %td= "%d images" % property.images_count

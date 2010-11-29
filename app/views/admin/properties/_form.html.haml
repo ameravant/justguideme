@@ -1,0 +1,34 @@
+%dl
+  %dt.form-label= f.label :title
+  %dd.form-option= f.text_field :title, :size => "44"
+  %dt.form-label= f.label :region_id
+  %dd.form-option= f.select :region_id, Region.all.sort_by(&:title).collect {|r| [r.title, r.id]}, {:include_blank => "Select a region"}
+  %dt.form-label= f.label :asking_price
+  %dd.form-option= f.text_field :asking_price, :size => "10"
+  %dt.form-label= f.label :reduced_price
+  %dd.form-option= f.text_field :reduced_price, :size => "10"
+  %dd.form-label= f.label :open_house_start
+  %dd.form-option= f.datetime_select :open_house_start
+  %dd.form-label= f.label :open_house_end
+  %dd.form-option= f.datetime_select :open_house_end
+  %dt.form-label= f.label :address
+  %dd.form-option= f.text_field :address, :size => "44" 
+  %dt.form-label= f.label :city
+  %dd.form-option= f.text_field :city, :size => "44" 
+  %dt.form-label= f.label :state
+  %dd.form-option= f.text_field :state, :size => "44" 
+  %dt.form-label= f.label :zip
+  %dd.form-option= f.text_field :zip, :size => "44" 
+  %dt.form-label= f.label :beds_count
+  %dd.form-option= f.text_field :beds_count, :size => "44" 
+  %dt.form-label= f.label :baths_count
+  %dd.form-option= f.text_field :baths_count, :size => "44" 
+  %dt.form-label= f.label :showing_instructions
+  %dd.form-option= f.text_area :showing_instructions, :size => "85x25"
+  %dt.form-label= f.label :directions
+  %dd.form-option= f.text_area :directions, :size => "85x25"
+  %dt.form-label= f.label :description
+  %dd.form-option= f.text_area :description, :size => "85x25"
+  %dt.form-label= f.label :body
+  %dd.form-option= f.text_area :body, :size => "85x50", :class => "mceEditor"
+= f.submit
