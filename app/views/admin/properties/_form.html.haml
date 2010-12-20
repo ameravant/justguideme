@@ -15,7 +15,7 @@
       %dd.form-option= f.datetime_select :date_listed
       %dt.form-label
         = f.label :date_reduced
-        .note Date the price of the property was reduced.
+        .note{:style => "font-size: .7em; font-weight: normal;"} Date the price of the property was reduced.
       %dd.form-option= f.datetime_select :date_reduced
       %dt.form-label= f.label :address
       %dd.form-option= f.text_field :address, :size => "44" 
@@ -37,4 +37,4 @@
       %dd.form-option= f.text_area :description, :size => "75x12"
       %dt.form-label= f.label :body
       %dd.form-option= f.text_area :body, :size => "85x35", :class => "mceEditor"
-    = f.submitx
+    = f.submit
