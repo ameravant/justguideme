@@ -1,8 +1,9 @@
 class CreateProperties < ActiveRecord::Migration
   def self.up
     create_table :properties do |t|
-      t.integer :owner_id
+      t.integer :person_id
       t.integer :region_id
+      t.integer :property_type_id
       t.integer :images_count
       t.integer :features_count
       t.string :title
@@ -20,6 +21,10 @@ class CreateProperties < ActiveRecord::Migration
       t.decimal :reduced_price
       t.datetime :open_house_start
       t.datetime :open_house_end
+      t.datetime :date_listed
+      t.datetime :date_reduced
+      t.boolean :sold
+      t.boolean :active
       t.timestamps
     end
   end

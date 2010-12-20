@@ -1,6 +1,6 @@
-class CreateRegions < ActiveRecord::Migration
+class CreatePropertyTypes < ActiveRecord::Migration
   def self.up
-    create_table :regions do |t|
+    create_table :property_types do |t|
       t.string :title
       t.string :permalink
       t.text :description
@@ -11,6 +11,6 @@ class CreateRegions < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :regions
+    drop_table :property_types
   end
 end

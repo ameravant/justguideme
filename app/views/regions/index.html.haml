@@ -1,0 +1,3 @@
+%ul.list-of-items
+  - for region in @regions
+    %li= link_to(region.title, region_path(region))

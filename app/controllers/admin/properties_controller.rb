@@ -1,15 +1,15 @@
 class Admin::PropertiesController < AdminController
   unloadable # http://dev.rubyonrails.org/ticket/6001
   before_filter :authorization
-  before_filter :find_property, :only => {:edit, :update}
+  before_filter :find_property, :only => [:edit, :update]
   
   def index
     add_breadcrumb "Properties"
-    @properties = Property.all
+    current_user.has_role("admin") ? @properties = Property.all : @properties = Property.all(:conditions => {:person_id => current_user.person.id})
   end
   
   def update
-    if Property.update_attributes(params[:property])
+    if @property.update_attributes(params[:property])
       flash[:message] = "Property updated successfully"
       redirect_to admin_properties_path
     else
@@ -17,8 +17,14 @@ class Admin::PropertiesController < AdminController
     end
   end
   
+  def edit
+    add_breadcrumb "Properties", admin_properties_path
+    add_breadcrumb @property.address
+  end
+  
   def create
     @property = Property.new(params[:property])
+    @property.person_id = current_user.id
     if @property.save
       flash[:message] = "Property saved successfully"
       redirect_to admin_properties_path
@@ -34,10 +40,10 @@ class Admin::PropertiesController < AdminController
   private
   
   def authorization
-    authorize(@permissions['admin'], "Admin")
+    authorize(['Property Owner', 'Admin'], "Properties")
   end
   
   def find_property
-    Property.find(params[:id])
+    @property = Property.find(params[:id])
   end
 end

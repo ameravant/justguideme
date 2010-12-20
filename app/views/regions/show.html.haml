@@ -1,0 +1,5 @@
+%h1= @region.title
+= @region.description
+%ul.list-of-items
+  - for property in @properties
+    %li= link_to(property.formatted_address, [@region, property])

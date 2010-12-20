@@ -1,4 +1,6 @@
-%h1= large_icon('Write') + ' ' + yield(:meta_title).strip
+- content_for :meta_title do
+  Properties
+%h1= large_icon('Home') + ' ' + yield(:meta_title).strip
 
 %div.box
   .float-right= render :partial => "/shared/search"
@@ -15,4 +17,8 @@
   - for property in @properties
     %tr{ :class => cycle('odd','even') }
       %td= link_to("#{property.address}, #{property.city}, #{property.state} #{property.zip}", edit_admin_property_path(property))
-      %td= "%d images" % property.images_count
+      %td= link_to("#{property.images.size} images", admin_property_images_path(property))
+      %td
+        = feature_icon_select(property, property.title) if current_user.has_role("Admin")
+        = icon "Write", edit_admin_property_path(property)
+        = trash_icon(property, admin_property_path(property), "#{property.address}")

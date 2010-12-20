@@ -1,0 +1,4 @@
+%h1 Search Results
+%ul.list-of-items
+  - for property in @properties
+    %li= link_to(property.formatted_address, [property.region, property])

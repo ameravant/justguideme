@@ -1,0 +1,110 @@
+- content_for :meta_title do
+  == #{@property.formatted_address} Property Listing
+
+
+- content_for :head do
+  :javascript
+    jQuery(function() { 
+    // setup ul.tabs to work as tabs for each div directly under div.panes 
+    jQuery("ul.tabs").tabs("div.panes > div.panel"); 
+    });
+  %style{:type => "text/css"}
+    ul.tabs { list-style: none; margin: 0; padding: 0; position: relative; top: 1px }
+    ul.tabs li { display: block; float: left; }
+    ul.tabs li a { display: block; float: left; padding: 0 10px 0 10px; border: 1px solid #999; background: #ccc; text-decoration: none; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; color: #666; }
+    ul.tabs li a:focus { outline: none; }
+    ul.tabs li a:hover { color: #333 !important; background: #aaa !important; }
+    ul.tabs li a.current { background: #fff; border-bottom: 1px solid #fff; }
+    ul.tabs li a.current:hover { background: #fff !important; }
+    div.panes { border: 1px solid #999; background: #fff; padding: 10px; }
+    label { display: block; font-size: 1.3em; line-height: 2em; margin: 10px 0 0; color: #333; }
+    label.inline { display: inline; }
+    label:hover { background: none !important; color: #999; }
+    input { font-size: 1.3em; }
+    ul.templates { list-style: none; width: 740px; height: 365px; overflow: auto; margin: 10px 0; padding: 0; text-transform: uppercase; font-size: .7em; border-bottom: 1px solid #6D869F; border-top: 1px solid #6D869F; background: #B5CADF; }
+    ul.templates li { float: left; padding: 10px; text-align: center; width: 100px; border-bottom: 1px solid #1D4267; }
+    ul.templates label { display: inline; float: none; width: inherit; }
+    div.panes { color: #222; }
+    div.panes h2 { color: #222; }
+    div.panes a { color: #527597; }
+    div#google_map { width: 300px; height: 250px; }
+    div.sidebar .images { width: 278px; text-align: left; }
+    div.sidebar .scrollable { width: 278px; }
+    div#property-price { font-weight: bold; }
+    div#property-price #price { font-size: 1.4em; }
+    div#property-price .strikethrough { text-decoration: line-through; color: #999; }
+    address { font-style: normal; line-height: 1.3em; margin: 10px 0; }
+    h1 { padding-bottom: 10px; }
+%h1 Property Listing
+%ul.tabs
+  %li= link_to("Description", "#Description")
+  - if !@property.directions.blank?
+    %li= link_to("Directions", "#Directions")
+  - if !@property.showing_instructions.blank?
+    %li= link_to("Showing Instructions", "#ShowingInstructions")
+  - if @property.person.properties.size > 1
+    %li= link_to("Owner Listings", "#OwnerListings")
+= clear
+.panes
+  .panel
+    = @property.body
+  .panel
+    = @property.directions
+  .panel
+    = @property.showing_instructions
+  .panel
+    %h3== More property listings from #{@property.person.name}
+    %ul
+      - for property in @property.person.properties
+        %li= link_to("#{property.address}, #{property.city}, #{property.state} #{property.zip}", region_property_path(property.region, property))
+- address = "#{@property.address.strip}, #{@property.city}, #{@property.state}"
+- content_for :head do
+  = render :partial => "google_maps_includes"
+- content_for :side_column do
+  #property-price
+    Asking Price:
+    %br
+    #price
+      - if @property.reduced_price
+        %span.strikethrough= number_to_currency(@property.asking_price)
+        = number_to_currency(@property.reduced_price)
+      - else
+        = number_to_currency(@property.asking_price)
+  - unless @property.images.empty?
+    .images 
+      - image = @property.images.sort_by(&:position).first
+      = link_to image_tag(image.image.url(:side_column)), image.image.url(:large), :rel => "gallery", :title => h(image.caption), :class => "fancy"
+      = "<div class=\"caption\">#{image.caption}</div>" unless image.caption.blank?
+      = clear
+      - if @property.images_count > 1
+        .scrollable
+          .items
+            - @property.images.sort_by(&:position).each_with_index do |image, i|
+              - unless i == 0
+                .image
+                  = link_to image_tag(image.image.url(:thumb)), image.image.url(:large), :rel => "gallery", :title => h(image.caption), :class => "fancy"
+          = clear
+        - if @property.images_count > 6
+          = "<a class=\"prev\">&lt;</a>"
+          .navi
+          = "<a class=\"next\">&gt;</a>"
+          = "<span class=\"gray small\">#{pluralize(@property.images_count, 'image')}</span>"
+          = clear
+    - content_for :head do
+      :javascript
+        jQuery(function() {            
+        // initialize scrollable  
+        jQuery("div.scrollable").scrollable({
+        size: 4,
+        clickable: false,
+        loop: true
+        });
+        });
+  .clear
+  %address
+    = @property.address
+    %br
+    == #{@property.city}, #{@property.state} #{@property.zip}
+  #google_map
+  %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"
+  
