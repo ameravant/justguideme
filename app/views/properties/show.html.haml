@@ -47,11 +47,11 @@
 = clear
 .panes
   .panel
-    = @property.body.blank? ? @property.description : @property.body
+    = @property.body.blank? ? simple_format(@property.description) : @property.body
   .panel
-    = @property.directions
+    = simple_format(@property.directions)
   .panel
-    = @property.showing_instructions
+    = simple_format(@property.showing_instructions)
   .panel
     %h3== More property listings from #{@property.person.name}
     %ul
