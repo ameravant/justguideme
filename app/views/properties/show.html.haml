@@ -47,7 +47,7 @@
 = clear
 .panes
   .panel
-    = @property.body
+    = @property.body.blank? ? @property.description : @property.body
   .panel
     = @property.directions
   .panel
