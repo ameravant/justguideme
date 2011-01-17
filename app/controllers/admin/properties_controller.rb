@@ -1,7 +1,7 @@
 class Admin::PropertiesController < AdminController
   unloadable # http://dev.rubyonrails.org/ticket/6001
   before_filter :authorization
-  before_filter :find_property, :only => [:edit, :update]
+  before_filter :find_property, :only => [:edit, :update, :destroy]
   
   def index
     add_breadcrumb "Properties"
@@ -35,6 +35,12 @@ class Admin::PropertiesController < AdminController
   
   def new
     @property = Property.new
+    @property.events.build
+  end
+  
+  def destroy
+    @property.destroy
+    respond_to :js
   end
   
   private

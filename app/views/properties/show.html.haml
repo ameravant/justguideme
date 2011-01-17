@@ -65,7 +65,7 @@
     Asking Price:
     %br
     #price
-      - if @property.reduced_price
+      - if @property.reduced_price != @property.asking_price
         %span.strikethrough= number_to_currency(@property.asking_price)
         = number_to_currency(@property.reduced_price)
       - else
@@ -107,4 +107,11 @@
     == #{@property.city}, #{@property.state} #{@property.zip}
   #google_map
   %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"
+  - unless @property.person.blank?
+    #contact-info
+      %h1 Contact Info
+      %div
+        = link_to(@property.person.name, @property.person.profile)
+        %br
+        = @property.person.phone
   

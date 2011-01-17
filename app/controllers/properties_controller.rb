@@ -2,7 +2,7 @@ class PropertiesController < ApplicationController
   unloadable
   def index
     @region = Region.find(params[:region_id])
-    @properties = @region.properties
+    @properties = Property.all(:joins => ['LEFT OUTER JOIN people ON people.id = properties.person_id'], :conditions => ["region_id = ? and confirmed = ?", @region.id, true])
   end
   
   def show

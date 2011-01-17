@@ -10,5 +10,6 @@ namespace :admin do |admin|
   admin.resources :properties, :has_many => { :features, :images } do |property|
     property.resources :menus
     property.resources :images, :member => { :reorder => :put }, :collection => { :reorder => :put }
+    property.resources :events, :as => :open_houses
   end
 end
