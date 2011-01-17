@@ -1,7 +1,8 @@
 class ProfilesController < ApplicationController
   unloadable
   def create
-    @person = Person.new(params[:person], :confirmed => false)
+    @person = Person.new(params[:person])
+    @person.confirmed = false
     params[:person][:user_attributes].merge!({ :name => params[:person][:name], :email => params[:person][:email] })
     params[:person][:person_group_ids] ||= []
     @person.confirmed = !@cms_config['site_settings']['member_confirmation']
