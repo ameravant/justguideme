@@ -48,6 +48,14 @@
 .panes
   .panel
     = @property.body.blank? ? simple_format(@property.description) : @property.body
+    - unless @property.events.empty?
+      %h3 Open Houses
+      - for e in @property.events
+        = e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+        %br
+        to
+        = e.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+        = simple_format(e.blurb)
   .panel
     = simple_format(@property.directions)
   .panel
@@ -111,7 +119,12 @@
     #contact-info
       %h1 Contact Info
       %div
-        = link_to(@property.person.name, @property.person.profile)
-        %br
-        = @property.person.phone
+        - if @property.person.profile
+          = link_to(@property.person.name, @property.person.profile)
+          - if @property.person.profile.show_phone
+            %br
+            = @property.person.phone
+          - if @property.person.profile.show_email
+            %br
+            = link_to(@property.person.email, "mailto:#{@property.person.email}")
   
