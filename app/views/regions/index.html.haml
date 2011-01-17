@@ -1,3 +1,10 @@
-%ul.list-of-items
+%h2 Select a Region
+%ul.list-of-regions
   - for region in @regions
     %li= link_to(region.title, region_path(region))
+    
+    
+- content_for :head do
+  %style{:type => "text/css"}
+    ul.list-of-regions { margin: 0; padding: 20px 0; font-size: 1.4em; }
+    ul.list-of-regions li { list-style: none; display: block; margin: 0 0 10px 0; }
