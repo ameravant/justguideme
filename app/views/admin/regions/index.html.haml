@@ -17,7 +17,7 @@
   - for region in @regions
     %tr{ :class => cycle('odd','even') }
       %td= link_to(region.title, edit_admin_region_path(region))
-      %td= "%d images" % region.images_count
+      %td= link_to("%d images" % region.images_count, [:admin, region, :images])
       %td
         = feature_icon_select(region, region.title)
         = icon "Write", edit_admin_region_path(region)
