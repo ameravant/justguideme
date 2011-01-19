@@ -9,7 +9,7 @@
     jQuery("ul.tabs").tabs("div.panes > div.panel"); 
     });
   %style{:type => "text/css"}
-    ul.tabs { list-style: none; margin: 0; padding: 0; position: relative; top: 1px }
+    ul.tabs { list-style: none; margin: 0; padding: 0; position: relative; top: 1px; font-size: .9em; }
     ul.tabs li { display: block; float: left; }
     ul.tabs li a { display: block; float: left; padding: 0 10px 0 10px; border: 1px solid #999; background: #ccc; text-decoration: none; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; color: #666; }
     ul.tabs li a:focus { outline: none; }
@@ -30,12 +30,34 @@
     div#google_map { width: 300px; height: 250px; }
     div.sidebar .images { width: 278px; text-align: left; }
     div.sidebar .scrollable { width: 278px; }
-    div#property-price { font-weight: bold; }
+    div#property-price { margin: 0 0 8px; }
     div#property-price #price { font-size: 1.4em; }
     div#property-price .strikethrough { text-decoration: line-through; color: #999; }
-    address { font-style: normal; line-height: 1.3em; margin: 10px 0; }
+    span#main-address { font-size: 1.2em; font-weight: bold; }
+    address { font-style: normal; line-height: 1em; margin: 0 0 8px; }
     h1 { padding-bottom: 10px; }
-%h1 Property Listing
+    div#primary-info, #contact-info, div.images { border: 1px solid #999; background: #FFFCCF; padding: 10px; margin-bottom: 10px; }
+    span.price { color: #3F9200; font-weight: bold; }
+    div#owner-name { font-size: 1.2em; font-weight: bold; margin-bottom: 8px; }
+    div#contact-info, div.images { background: #F3F1EA; line-height: 1.4em; }
+    div#contact-info-detail { font-size: .85em; }
+    
+#primary-info
+  %address
+    %span#main-address= @property.address + ", "
+    == #{@property.city}, #{@property.state} #{@property.zip}
+  #property-price
+    #price
+      - if @property.reduced_price != @property.asking_price
+        %span.price= number_to_currency(@property.reduced_price)
+        %span.strikethrough= number_to_currency(@property.asking_price)
+      - else
+        %span.price= number_to_currency(@property.asking_price)
+  - unless @property.beds_count.blank? and @property.baths_count.blank?
+    #property-size
+      = pluralize(@property.beds_count, "Bed")
+      |
+      = pluralize(@property.baths_count, "Bath")
 %ul.tabs
   %li= link_to("Description", "#Description")
   - if !@property.directions.blank?
@@ -44,18 +66,12 @@
     %li= link_to("Showing Instructions", "#ShowingInstructions")
   - if @property.person.properties.size > 1
     %li= link_to("Owner Listings", "#OwnerListings")
+  - unless @property.events.empty?
+    %li= link_to("Open Houses", "#OpenHouses")
 = clear
 .panes
   .panel
     = @property.body.blank? ? simple_format(@property.description) : @property.body
-    - unless @property.events.empty?
-      %h3 Open Houses
-      - for e in @property.events
-        = e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
-        %br
-        to
-        = e.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
-        = simple_format(e.blurb)
   .panel
     = simple_format(@property.directions)
   .panel
@@ -65,19 +81,36 @@
     %ul
       - for property in @property.person.properties
         %li= link_to("#{property.address}, #{property.city}, #{property.state} #{property.zip}", region_property_path(property.region, property))
+  - unless @property.events.empty?
+    .panel
+      - for e in @property.events
+        = e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+        %br
+        to
+        = e.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+        = simple_format(e.blurb)
 - address = "#{@property.address.strip}, #{@property.city}, #{@property.state}"
 - content_for :head do
   = render :partial => "google_maps_includes"
 - content_for :side_column do
-  #property-price
-    Asking Price:
-    %br
-    #price
-      - if @property.reduced_price != @property.asking_price
-        %span.strikethrough= number_to_currency(@property.asking_price)
-        = number_to_currency(@property.reduced_price)
-      - else
-        = number_to_currency(@property.asking_price)
+  
+  - unless @property.person.blank?
+    #contact-info
+      %div
+        = image_tag(@property.person.avatar.url(:profile_thumb), :alt => "Profile photo for %s" % @property.person.name, :class => "profile-image") if @property.person.avatar_file_name
+        - if @property.person.profile
+          .small Presented By
+          #owner-name= link_to(@property.person.name, @property.person.profile)
+          #contact-info-detail
+            - if @property.person.profile.show_phone
+              = @property.person.phone
+            - if @property.person.profile.show_email
+              %br
+              = link_to("Email Owner", "mailto:#{@property.person.email}")
+            - if @property.person.profile.show_web_address
+              %br
+              = link_to("Visit Owner's Website", @property.person.web_address)
+        = clear
   - unless @property.images.empty?
     .images 
       - image = @property.images.sort_by(&:position).first
@@ -109,22 +142,7 @@
         });
         });
   .clear
-  %address
-    = @property.address
-    %br
-    == #{@property.city}, #{@property.state} #{@property.zip}
   #google_map
   %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"
-  - unless @property.person.blank?
-    #contact-info
-      %h1 Contact Info
-      %div
-        - if @property.person.profile
-          = link_to(@property.person.name, @property.person.profile)
-          - if @property.person.profile.show_phone
-            %br
-            = @property.person.phone
-          - if @property.person.profile.show_email
-            %br
-            = link_to(@property.person.email, "mailto:#{@property.person.email}")
+  
   
