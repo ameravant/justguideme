@@ -81,7 +81,7 @@ private
   end
 
   def authorization
-    authorize(@permissions['events'], "Events")
+    authorize(['Property Owner', 'Admin'], "Open Houses")
   end
   def add_crumbs
     add_breadcrumb @cms_config['site_settings']['events_title'], "admin_events_path"
