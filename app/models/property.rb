@@ -14,6 +14,10 @@ class Property < ActiveRecord::Base
     "#{self.address}, #{self.city}, #{self.state} #{self.zip}"
   end
   
+  def to_param
+    "#{self.id}-#{path_safe(self.formatted_address)}"
+  end
+  
   def set_reduced_price
     self.reduced_price = self.asking_price if self.reduced_price.blank?
   end
