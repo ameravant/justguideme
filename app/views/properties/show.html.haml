@@ -11,11 +11,11 @@
   %style{:type => "text/css"}
     ul.tabs { list-style: none; margin: 0; padding: 0; position: relative; top: 1px; font-size: .9em; }
     ul.tabs li { display: block; float: left; }
-    ul.tabs li a { display: block; float: left; padding: 0 10px 0 10px; border: 1px solid #999; background: #ccc; text-decoration: none; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; color: #666; }
+    ul.tabs li a { display: block; float: left; padding: 0 10px 0 10px; border: 1px solid #999; background: #F3F1EA; text-decoration: none; -webkit-border-radius: 4px 4px 0 0; -moz-border-radius: 4px 4px 0 0; color: #666; }
     ul.tabs li a:focus { outline: none; }
-    ul.tabs li a:hover { color: #333 !important; background: #aaa !important; }
-    ul.tabs li a.current { background: #fff; border-bottom: 1px solid #fff; }
-    ul.tabs li a.current:hover { background: #fff !important; }
+    ul.tabs li a:hover { color: #D43A38 !important; background: #FFFCCF !important; }
+    ul.tabs li a.current { background: #fff; border-bottom: 1px solid #fff; color: #D43A38; }
+    ul.tabs li a.current:hover { background: #fff !important; color: #D43A38; }
     div.panes { border: 1px solid #999; background: #fff; padding: 10px; }
     label { display: block; font-size: 1.3em; line-height: 2em; margin: 10px 0 0; color: #333; }
     label.inline { display: inline; }
@@ -26,8 +26,9 @@
     ul.templates label { display: inline; float: none; width: inherit; }
     div.panes { color: #222; }
     div.panes h2 { color: #222; }
-    div.panes a { color: #527597; }
-    div#google_map { width: 300px; height: 250px; }
+    div.panes p { margin: 0; padding: .5em 0 1.5em; }
+    div#map-outer { width: 278px; padding: 10px; border: 1px solid #999; background: #F3F1EA; }
+    div#google_map { width: 278px; height: 250px; }
     div.sidebar .images { width: 278px; text-align: left; }
     div.sidebar .scrollable { width: 278px; }
     div#property-price { margin: 0 0 8px; }
@@ -41,18 +42,28 @@
     div#owner-name { font-size: 1.2em; font-weight: bold; margin-bottom: 8px; }
     div#contact-info, div.images { background: #F3F1EA; line-height: 1.4em; }
     div#contact-info-detail { font-size: .85em; }
-    
-#primary-info
+    div.panel h3 { margin: 0; padding: .5em 0 1.5em; }
+    ul.list-of-properties, ul.list-of-open-houses { margin: 0; padding: 0; }
+    ul.list-of-properties li, ul.list-of-open-houses li { list-style: none; display: block; margin: 0 0 10px 0; line-height: 1.4em; }
+    div.open-house-date { font-weight: bold; color: #325D95; }
+    ul.list-of-open-houses p { margin: 0; padding: 4px 0 6px; font-size: .85em; }
+    div#primary-info.property-sold { background: #FFCFD7 !important; }
+    span.sold { font-weight: bold; color: #D6343A; font-size: 1.4em; }
+#primary-info{:class => (@property.sold? ? "property-sold" : "property-available")}
   %address
     %span#main-address= @property.address + ", "
     == #{@property.city}, #{@property.state} #{@property.zip}
   #property-price
     #price
-      - if @property.reduced_price != @property.asking_price
-        %span.price= number_to_currency(@property.reduced_price)
-        %span.strikethrough= number_to_currency(@property.asking_price)
+      - if @property.sold?
+        %span.sold Sold
+        %span.strikethrough= number_to_currency(@property.reduced_price)
       - else
-        %span.price= number_to_currency(@property.asking_price)
+        - if @property.reduced_price != @property.asking_price
+          %span.price= number_to_currency(@property.reduced_price)
+          %span.strikethrough= number_to_currency(@property.asking_price)
+        - else
+          %span.price= number_to_currency(@property.asking_price)
   - unless @property.beds_count.blank? and @property.baths_count.blank?
     #property-size
       = pluralize(@property.beds_count, "Bed")
@@ -77,18 +88,34 @@
   .panel
     = simple_format(@property.showing_instructions)
   .panel
-    %h3== More property listings from #{@property.person.name}
-    %ul
+    %ul.list-of-properties
       - for property in @property.person.properties
-        %li= link_to("#{property.address}, #{property.city}, #{property.state} #{property.zip}", region_property_path(property.region, property))
+        %li
+          - unless property.images.empty?
+            = link_to(image_tag(property.images.first.image(:small), :style => "float: left; margin: 0 10px 10px 0;", :alt => property.formatted_address, :title => property.formatted_address), [@region, property])
+          = link_to(property.formatted_address, [@region, property])
+          - unless property.date_listed.blank?
+            %br
+            %strong Date Listed:
+            = property.date_listed.strftime("%b %d, %Y")
+          %br
+          %strong Price:
+          = number_to_currency(property.reduced_price)
+          = clear
   - unless @property.events.empty?
     .panel
-      - for e in @property.events
-        = e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
-        %br
-        to
-        = e.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
-        = simple_format(e.blurb)
+      %ul.list-of-open-houses
+        - for e in @property.events
+          %li.open-house
+            .open-house-date
+              - if e.date_and_time.strftime("%A, %B %d, %Y") == e.end_date_and_time.strftime("%A, %B %d, %Y")
+                == #{e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p")} &mdash; #{e.end_date_and_time.strftime("%I:%M %p")}
+              - else
+                = e.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+                %br
+                to
+                = e.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+            = simple_format(e.blurb)
 - address = "#{@property.address.strip}, #{@property.city}, #{@property.state}"
 - content_for :head do
   = render :partial => "google_maps_includes"
@@ -104,6 +131,7 @@
           #contact-info-detail
             - if @property.person.profile.show_phone
               = @property.person.phone
+              %br
             - if @property.person.profile.show_email
               %br
               = link_to("Email Owner", "mailto:#{@property.person.email}")
@@ -142,7 +170,6 @@
         });
         });
   .clear
-  #google_map
-  %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"
-  
-  
+  #map-outer
+    #google_map
+    %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"

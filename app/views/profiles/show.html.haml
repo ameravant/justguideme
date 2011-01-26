@@ -42,7 +42,7 @@
   - if @person.properties.size > 0
     %h2 Property Listings
     %ul.recent_articles.list_of_links
-      - for property in @person.properties
+      - for property in @person.properties.available
         %li= link_to(property.formatted_address, [property.region, property])
   %div{:class => (@person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.size > 0 and @person.comments_count > 0 ? "member-meta-two-column" : "member-meta-one-column")}
     %h2= "Recent Activity" if @person.articles.reject{|a| !a.published}.reject{|a| !a.published_date_in_past?}.size > 0 or @person.comments_count > 0

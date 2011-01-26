@@ -18,6 +18,9 @@ class Property < ActiveRecord::Base
     self.reduced_price = self.asking_price if self.reduced_price.blank?
   end
   
+  def available
+    !self.sold?
+  end
   
   def existing_events=(events)     
     events.each do |key, event|
