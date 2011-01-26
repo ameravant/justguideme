@@ -49,6 +49,7 @@
     ul.list-of-open-houses p { margin: 0; padding: 4px 0 6px; font-size: .85em; }
     div#primary-info.property-sold { background: #FFCFD7 !important; }
     span.sold { font-weight: bold; color: #D6343A; font-size: 1.4em; }
+    div.images { margin-top: 0; }
 #primary-info{:class => (@property.sold? ? "property-sold" : "property-available")}
   %address
     %span#main-address= @property.address + ", "
