@@ -75,8 +75,9 @@
     %li= link_to("Directions", "#Directions")
   - if !@property.showing_instructions.blank?
     %li= link_to("Showing Instructions", "#ShowingInstructions")
-  - if @property.person.properties.size > 1
-    %li= link_to("Owner Listings", "#OwnerListings")
+  - unless @property.person.profile.blank?
+    - if @property.person.properties.size > 1
+      %li= link_to("Owner Listings", "#OwnerListings")
   - unless @property.events.empty?
     %li= link_to("Open Houses", "#OpenHouses")
 = clear
@@ -87,21 +88,22 @@
     = simple_format(@property.directions)
   .panel
     = simple_format(@property.showing_instructions)
-  .panel
-    %ul.list-of-properties
-      - for property in @property.person.properties
-        %li
-          - unless property.images.empty?
-            = link_to(image_tag(property.images.first.image(:small), :style => "float: left; margin: 0 10px 10px 0;", :alt => property.formatted_address, :title => property.formatted_address), [@region, property])
-          = link_to(property.formatted_address, [@region, property])
-          - unless property.date_listed.blank?
+  - unless @property.person.profile.blank?
+    .panel
+      %ul.list-of-properties
+        - for property in @property.person.properties
+          %li
+            - unless property.images.empty?
+              = link_to(image_tag(property.images.first.image(:small), :style => "float: left; margin: 0 10px 10px 0;", :alt => property.formatted_address, :title => property.formatted_address), [@region, property])
+            = link_to(property.formatted_address, [@region, property])
+            - unless property.date_listed.blank?
+              %br
+              %strong Date Listed:
+              = property.date_listed.strftime("%b %d, %Y")
             %br
-            %strong Date Listed:
-            = property.date_listed.strftime("%b %d, %Y")
-          %br
-          %strong Price:
-          = number_to_currency(property.reduced_price)
-          = clear
+            %strong Price:
+            = number_to_currency(property.reduced_price)
+            = clear
   - unless @property.events.empty?
     .panel
       %ul.list-of-open-houses
@@ -121,7 +123,7 @@
   = render :partial => "google_maps_includes"
 - content_for :side_column do
   
-  - unless @property.person.blank?
+  - unless @property.person.profile.blank?
     #contact-info
       %div
         = image_tag(@property.person.avatar.url(:profile_thumb), :alt => "Profile photo for %s" % @property.person.name, :class => "profile-image") if @property.person.avatar_file_name
