@@ -108,7 +108,8 @@
   - unless @property.events.empty?
     .panel
       %ul.list-of-open-houses
-        - for e in @property.events
+        - events = Event.all(:conditions => {:property_id => @property.id})
+        - for e in events
           %li.open-house
             .open-house-date
               - if e.date_and_time.strftime("%A, %B %d, %Y") == e.end_date_and_time.strftime("%A, %B %d, %Y")
