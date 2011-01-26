@@ -85,10 +85,12 @@
 .panes
   .panel
     = @property.body.blank? ? simple_format(@property.description) : @property.body
-  .panel
-    = simple_format(@property.directions)
-  .panel
-    = simple_format(@property.showing_instructions)
+  - unless @property.directions.blank?
+    .panel
+      = simple_format(@property.directions)
+  - unless @property.showing_instructions.blank?
+    .panel
+      = simple_format(@property.showing_instructions)
   - unless @property.person.profile.blank?
     .panel
       %ul.list-of-properties
