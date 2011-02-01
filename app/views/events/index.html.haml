@@ -26,11 +26,19 @@
             - elsif event.this_week?
               %span.event_tag.event_tag_this_week this week
           - if @cms_config['features']['event_registration']
-            - if event.registration? and event.date_and_time >= Date.tomorrow.to_time
+            - if event.registration? and event.date_and_time >= Datevent.tomorrow.to_time
               -# if event.registration_spots?
               -#%span.event_tag.event_tag_open registration open
               -#- else
               -#%span.event_tag.event_tag_full registration full
+          - if event.date_and_time.strftime("%A, %B %d, %Y") == event.end_date_and_time.strftime("%A, %B %d, %Y")
+            == #{event.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p")} &mdash; #{event.end_date_and_time.strftime("%I:%M %p")}
+          - else
+            = event.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+            %br
+            to
+            = event.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+
           .event_blurb= simple_format(truncate(event.blurb.strip, 200))
   .clear
 - @events_grouped.each do |year_and_month, events|
@@ -52,10 +60,22 @@
             - elsif event.this_week?
               %span.event_tag.event_tag_this_week this week
           - if @cms_config['features']['event_registration']
-            - if event.registration? and event.date_and_time >= Date.tomorrow.to_time
+            - if event.registration? and event.date_and_time >= Datevent.tomorrow.to_time
               -# if event.registration_spots?
               -#%span.event_tag.event_tag_open registration open
               -#- else
               -#%span.event_tag.event_tag_full registration full
+          - if event.date_and_time.strftime("%A, %B %d, %Y") == event.end_date_and_time.strftime("%A, %B %d, %Y")
+            == #{event.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p")} &mdash; #{event.end_date_and_time.strftime("%I:%M %p")}
+          - else
+            = event.date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
+            %br
+            to
+            = event.end_date_and_time.strftime("%A, %B %d, %Y at %I:%M %p %Z")
           .event_blurb= simple_format(truncate(event.blurb.strip, 200))
   = clear
+
+- content_for :head do
+  %style{ :type => "text/css" }
+    div.event_description { line-height: 1em; }
+    div.event_description h3 { margin-bottom: 0; }
