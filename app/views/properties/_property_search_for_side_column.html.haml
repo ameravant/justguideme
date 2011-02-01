@@ -1,7 +1,7 @@
 - content_for :banner do
   #home-property-search-outer
     #home-property-search-inner
-      %h2 Find a Home
+      %h2 Find a <span>Home</span>
       - form_tag("/property_searches", :method => "get", :id => "search_form_home") do
         %fieldset
           = select :search, :region_id, Region.all.sort_by(&:title).collect {|r| [r.title, r.id]}, :include_blank => "Select a Neighborhood", :style => "width: 275px;"
@@ -15,5 +15,6 @@
   %style{:type => "text/css"}
     div#home-property-search-outer { background: #EEECE2; border-bottom: #9E2E2E solid 1px; }
     div#home-property-search-inner { width: 880px; padding: 10px 10px 10px; margin: 0 auto; text-align: left; background: url(http://s3.amazonaws.com/siteninja/justguideme-com/1296073649/original/find-bg.gif) no-repeat center; height: 69px; }
-    div#home-property-search-inner h2 { background: url(http://s3.amazonaws.com/siteninja/justguideme-com/1295995367/original/search-home.gif)  no-repeat left top; line-height: 22px; padding: 3px 0 0 30px; }
+    div#home-property-search-inner h2 { background: url(http://s3.amazonaws.com/siteninja/justguideme-com/1296580570/original/search-home.png)  no-repeat left top; line-height: 22px; padding: 21px 0 0 65px; color: #000; }
+    div#home-property-search-inner h2 span { color: #CD2027; }
     

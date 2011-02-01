@@ -14,4 +14,6 @@ class PropertiesController < ApplicationController
     add_breadcrumb @region.title, region_path(@region)
     add_breadcrumb @property.formatted_address
   end
+  
+  private
 end
