@@ -27,7 +27,7 @@
     div.panes { color: #222; }
     div.panes h2 { color: #222; }
     div.panes p { margin: 0; padding: .5em 0 1.5em; }
-    div#map-outer { width: 278px; padding: 10px; border: 1px solid #999; background: #F3F1EA; }
+    div#map-outer { width: 278px; }
     div#google_map { width: 278px; height: 250px; }
     div.sidebar .images { width: 278px; text-align: left; }
     div.sidebar .scrollable { width: 278px; }
@@ -192,7 +192,7 @@
               = link_to("Visit Owner's Website", @property.person.web_address)
         = clear
   - unless @property.images.empty?
-    .images 
+    .side-column-section 
       - image = @property.images.sort_by(&:position).first
       = link_to image_tag(image.image.url(:side_column), :title => h(image.caption.blank? ? @property.formatted_address : image.caption), :alt => h(image.caption.blank? ? @property.formatted_address : image.caption)), image.image.url(:large), :rel => "gallery", :class => "fancy"
       = "<div class=\"caption\">#{image.caption}</div>" unless image.caption.blank?
@@ -222,7 +222,7 @@
         });
         });
   .clear
-  #map-outer
+  #map-outer{:class => "side-column-section"}
     #google_map
     %div= link_to "View larger map", "http://maps.google.com?q=#{u address}"
     
