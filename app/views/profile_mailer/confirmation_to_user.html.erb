@@ -4,14 +4,14 @@ pretty_body.gsub!('href="/', "href=\"#{$DOMAIN_PATH}")
 pretty_body.gsub!('src="/', "src=\"#{$DOMAIN_PATH}")
 -%>
 <div>
-  <%= "Hi %s" % @profile.name %>,
+  <%= "Hi %s" % @profile.person.name %>,
   <%= pretty_body %>
 </div>
   ______________________________________________
 
 <div>
-  <p>Email: <%= h @profile.email %></p>
-  <%- unless @profile.phone.blank? -%>
-   <p>Phone: <%= h @profile.phone %></p>
+  <p>Email: <%= h @profile.person.email %></p>
+  <%- unless @profile.person.phone.blank? -%>
+   <p>Phone: <%= h @profile.person.phone %></p>
   <%- end -%>
 </div>

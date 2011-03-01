@@ -1,12 +1,9 @@
-A new profile message was submitted.
+A person signed up to JustGuideMe. To confirm this person, <%= link_to("click here", admin_profile_url(@profile))%>.
 <br />
-Name:  <%= h @profile.name %><br />
-Email: <%= h @profile.email %><br />
-<%- unless @profile.phone.blank? -%>
-Phone: <%= h @profile.phone %><br />
+Name:  <%= h @profile.person.name %><br />
+Email: <%= h @profile.person.email %><br />
+<%- unless @profile.person.phone.blank? -%>
+Phone: <%= h @profile.person.phone %><br />
 <%- end -%>
 
-Message:<br />
-
-<%= simple_format @profile.profile %>
 
