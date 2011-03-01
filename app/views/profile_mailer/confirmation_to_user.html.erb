@@ -1,11 +1,7 @@
-<%-
-pretty_body = @confirmation_message
-pretty_body.gsub!('href="/', "href=\"#{$DOMAIN_PATH}")
-pretty_body.gsub!('src="/', "src=\"#{$DOMAIN_PATH}")
--%>
+
 <div>
   <%= "Hi %s" % @profile.person.name %>,
-  <%= pretty_body %>
+  Thank you for signing up to JustGuideMe.
 </div>
   ______________________________________________
 
