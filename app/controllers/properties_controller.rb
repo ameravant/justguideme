@@ -6,7 +6,6 @@ class PropertiesController < ApplicationController
   end
   
   def show
-    
     @property = Property.find(params[:id])
     @region = Region.find(@property.region_id)
     add_breadcrumb "Home", "/"
