@@ -156,7 +156,7 @@
     - unless @property.events.empty?
       .panel
         %ul.list-of-open-houses
-          - events = Event.all(:conditions => {:property_id => @property.id})
+          - events = Event.all(:conditions => {:property_id => @property.id}, :order => "date_and_time asc")
           - for e in events
             %li.open-house
               .open-house-date
