@@ -1,0 +1,17 @@
+<%-
+pretty_body = @confirmation_message
+pretty_body.gsub!('href="/', "href=\"#{$DOMAIN_PATH}")
+pretty_body.gsub!('src="/', "src=\"#{$DOMAIN_PATH}")
+-%>
+<div>
+  <%= "Hi %s" % @profile.name %>,
+  <%= pretty_body %>
+</div>
+  ______________________________________________
+
+<div>
+  <p>Email: <%= h @profile.email %></p>
+  <%- unless @profile.phone.blank? -%>
+   <p>Phone: <%= h @profile.phone %></p>
+  <%- end -%>
+</div>

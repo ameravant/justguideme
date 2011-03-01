@@ -1,0 +1,12 @@
+A new profile message was submitted.
+<br />
+Name:  <%= h @profile.name %><br />
+Email: <%= h @profile.email %><br />
+<%- unless @profile.phone.blank? -%>
+Phone: <%= h @profile.phone %><br />
+<%- end -%>
+
+Message:<br />
+
+<%= simple_format @profile.profile %>
+
