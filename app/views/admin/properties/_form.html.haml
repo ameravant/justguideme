@@ -7,7 +7,7 @@
         = f.label :sold, "Set Property To Sold"
         = clear
     - else
-      = f.hidden_field :sold, "false"
+      = f.hidden_field :sold, :value => "false"
     #property-address
       %h3 Property Address
       %dl
