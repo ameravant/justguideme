@@ -6,6 +6,8 @@
         = f.check_box :sold
         = f.label :sold, "Set Property To Sold"
         = clear
+    - else
+      = f.hidden_field :sold, "false"
     #property-address
       %h3 Property Address
       %dl

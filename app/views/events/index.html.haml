@@ -17,7 +17,7 @@
           %span.date== #{event.date_and_time.strftime('%d')}
           %span.day== #{event.date_and_time.strftime('%a')}
         - unless event.property.images.empty?
-          = link_to(image_tag(event.property.images.first.image(:small), :style => "float: left; margin: 0px 10px 10px 0;", :alt => event.property.formatted_address, :title => event.property.formatted_address), [@region, property])
+          = link_to(image_tag(event.property.images.first.image(:small), :style => "float: left; margin: 0px 10px 10px 0;", :alt => event.property.formatted_address, :title => event.property.formatted_address), [event.property.region, event.property])
         .event_description
           %h3
             = link_to h(event.name), event.property

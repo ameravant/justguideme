@@ -122,7 +122,7 @@
     %li= link_to("Showing Instructions", "#ShowingInstructions")
   - unless @property.person.profile.blank?
     - if @property.person.properties.size > 1
-      %li= link_to("Owner Listings", "#OwnerListings")
+      %li= link_to("Listings", "#OwnerListings")
   - unless @property.events.empty?
     %li= link_to("Open Houses", "#OpenHouses")
 = clear
@@ -186,10 +186,10 @@
               %br
             - if @property.person.profile.show_email
               %br
-              = link_to("Email Owner", "mailto:#{@property.person.email}")
+              = link_to("Email", "mailto:#{@property.person.email}")
             - if @property.person.profile.show_web_address
               %br
-              = link_to("Visit Owner's Website", @property.person.web_address)
+              = link_to("Visit Website", @property.person.web_address)
         = clear
   - unless @property.images.empty?
     .side-column-section 
