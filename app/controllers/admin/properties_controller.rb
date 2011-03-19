@@ -24,7 +24,7 @@ class Admin::PropertiesController < AdminController
   
   def create
     @property = Property.new(params[:property])
-    @property.person_id = current_user.id
+    @property.person_id = current_user.person.id
     if @property.save
       flash[:message] = "Property saved successfully"
       redirect_to admin_properties_path
