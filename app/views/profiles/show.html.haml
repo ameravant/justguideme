@@ -59,15 +59,7 @@
               %p= article.description.blank? ? h(article.blurb) : h(article.description)
           - if @person.articles_count > 5
             %li= link_to("More Articles", articles_path(:author => @person.id))
-    - if @person.comments_count > 0
-      .member-meta.comments
-        %h3 Comments
-        %ul.recent_articles.list_of_links
-          - comments = Comment.find_all_by_person_id(@person.id)
-          - for comment in comments.sort_by(&:created_at)[0..4]
-            %li
-              %h4= link_to comment.commentable.title, comment.commentable
-              %span.date= comment.commentable.created_at.strftime("%a, %B %d, %Y")
-              = simple_format(link_to(truncate(comment.comment, 200), (comment.commentable)))# + "#comment_#{comment.id}")
+= clear
+= render :partial => "shared/comment_form", :locals => { :owner => @person.profile }
 = render :partial => "side_column"
 = render :partial => "pages/sidebar"

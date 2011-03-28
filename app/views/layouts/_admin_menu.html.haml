@@ -4,6 +4,7 @@
       %li= link_to "Homepage", "/", :id => "home"
       %li= link_to "Dashboard", "/admin", :id => "admin-home"
       %li= link_to "Properties", admin_properties_path, :id => "admin-properties"
+      %li= link_to "Property Types", admin_property_types_path, :id => "admin-property-types"
       %li= link_to "Regions", admin_regions_path, :id => "admin-regions"
       
       - if @cms_config['modules']['pages']

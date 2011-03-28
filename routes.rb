@@ -1,6 +1,7 @@
 resources :properties
 resources :property_searches
 resources :regions, :has_many => :properties
+resources :profiles, :collection => { :forgot_password => :any }, :has_many => :comments
 namespace :admin do |admin|
   admin.resources :regions, :has_many => { :features, :menus } do |region|
     region.resources :menus
@@ -12,4 +13,6 @@ namespace :admin do |admin|
     property.resources :images, :member => { :reorder => :put }, :collection => { :reorder => :put }
     property.resources :events, :as => :open_houses
   end
+  admin.resources :profiles, :has_many => :comments
+  admin.resources :property_types
 end

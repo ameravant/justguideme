@@ -1,7 +1,7 @@
 class Admin::RegionsController < AdminController
   unloadable
   before_filter :authorization
-  before_filter :find_region, :only => [:edit, :update]
+  before_filter :find_region, :only => [:edit, :update, :destroy]
   
   def index
     add_breadcrumb "Regions"
@@ -38,6 +38,10 @@ class Admin::RegionsController < AdminController
     end
   end
   
+  def destroy
+    @region.destroy
+    respond_to :js
+  end
   private
   
   def authorization
