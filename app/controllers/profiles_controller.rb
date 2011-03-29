@@ -12,10 +12,10 @@ class ProfilesController < ApplicationController
       profile.save
       if Page.find_by_permalink("profile-checkout")
         redirect_to "/profile-checkout"
-        flash[:notice] = "Thanks for signing up, please complete the checkout process to confirm your registration."
+        flash[:notice] = "We appreciate the opportunity to help you in selling your property. Your posts will take up to 24 hours to display on our website.  If you have any questions, please contact us at support@justguideme.com. Thank you for posting on justguideme.com."
       else
         redirect_to new_session_path
-        flash[:notice] = "Thanks for joining! Please sign-in"
+        flash[:notice] = "We appreciate the opportunity to help you in selling your property. Your post will take up to 24 hours to display on our website. If you have any questions, please contact us at support@justguideme.com. Thank you for posting on justguideme.com. Please sign-in below."
       end
     else
       render :action => "new"
