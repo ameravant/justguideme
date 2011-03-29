@@ -27,7 +27,7 @@ class Admin::PropertiesController < AdminController
     @property.person_id = current_user.person.id
     if @property.save
       flash[:message] = "Property saved successfully"
-      redirect_to admin_properties_path
+      redirect_to new_admin_property_image_path(@property)
     else
       render :action => "new"
     end

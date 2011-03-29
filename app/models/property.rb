@@ -8,6 +8,11 @@ class Property < ActiveRecord::Base
   before_create :set_reduced_price
   before_update :set_reduced_price
   validates_associated :events
+  validates_presence_of :region_id
+  validates_presence_of :property_type_id
+  validates_presence_of :address
+  validates_presence_of :city
+  validates_presence_of :asking_price
   after_update :save_events
 
   def formatted_address
@@ -16,6 +21,10 @@ class Property < ActiveRecord::Base
   
   def to_param
     "#{self.id}-#{path_safe(self.formatted_address)}"
+  end
+  
+  def title
+    "#{self.address}, #{self.city}"
   end
   
   def set_reduced_price
