@@ -10,6 +10,9 @@
       - if !@person.title.blank? and @person.profile.show_title?
         %dt Title:
         %dd= @person.title
+      - if !@person.dre_license.blank? and @person.profile.show_dre_license?
+        %dt DRE License:
+        %dd= @person.dre_license
       - if !@person.email.blank? and @person.profile.show_email?
         %dt Email:
         %dd= link_to(@person.email, "mailto:#{@person.email}")
