@@ -182,6 +182,9 @@
           #owner-name= link_to(@property.person.name, @property.person.profile)
           #contact-info-detail
             = simple_format(@property.person.profile.short_description)
+            - if @property.person.profile.show_dre_license
+              ==DRE License: #{@property.person.dre_license}
+              %br
             - if @property.person.profile.show_phone
               = @property.person.phone
               %br
