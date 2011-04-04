@@ -66,3 +66,10 @@
 = render :partial => "shared/comment_form", :locals => { :owner => @person.profile }
 = render :partial => "side_column"
 = render :partial => "pages/sidebar"
+
+- content_for :head do
+  %style{:type => "text/css", :media => "print"}
+    div.sidebar { display: none; }
+    div#answer_form { display: none; }
+    div.member-meta dt { display: block; float: left; margin-right: 5px; width: 70px; }
+    
