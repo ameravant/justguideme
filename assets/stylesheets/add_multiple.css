@@ -1,0 +1,36 @@
+.img-form {
+	margin:10px;
+}
+.img-form span {
+	background:lightblue; 
+	padding:10px; 
+	clear:left; 
+	border:2px solid gray;
+	margin-left:1em;
+	vertical-align:top;
+	line-height:4em;
+}
+.img-form img {
+	border:1px solid gainsboro;
+}
+#content-inner #main-column a.add-new-image, .add-images button {
+	background: green;
+	color:white;
+	font-size:1.3em;
+	padding:10px;
+	border:3px solid gainsboro;
+	margin:15px;
+	font-weight:bold;
+	float:left;
+}
+#content-inner #main-column a.add-new-image:hover, .add-images button:hover{
+	background:darkblue;
+	text-decoration:none;
+}
+.add-images button {
+	float:right;
+}
+.add-images{
+	clear:both;
+	margin-top:3em;
+}

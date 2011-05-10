@@ -14,6 +14,7 @@ class Property < ActiveRecord::Base
   validates_presence_of :city
   validates_presence_of :asking_price
   after_update :save_events
+  accepts_nested_attributes_for :images
 
   def formatted_address
     "#{self.address}, #{self.city}, #{self.state} #{self.zip}"

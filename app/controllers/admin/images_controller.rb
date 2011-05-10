@@ -2,13 +2,23 @@ class Admin::ImagesController < AdminController
   unloadable # http://dev.rubyonrails.org/ticket/6001
   before_filter :authorization
   before_filter :find_viewable
-  before_filter :find_image, :except => [ :new, :create, :reorder, :index ]
-  
+  before_filter :find_image, :except => [ :new, :create, :reorder, :index, :add_multiple ]
+  def add_multiple
+    if @owner.images.any?
+      @images = @owner.images
+    else
+      @images = @owner.images.build
+    end
+  end
   def index
     add_breadcrumb "Images"
     @images = @owner.images.sort_by(&:position)
     if @owner.images_count.blank?
-      redirect_to [:new, :admin, @owner, :image]
+      if @owner.is_a?(Property)
+        redirect_to [:add_multiple, :admin, @owner, :image]
+      else
+        redirect_to [:new, :admin, @owner, :image]
+      end
     end
   end
 
