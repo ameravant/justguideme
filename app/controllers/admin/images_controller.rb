@@ -14,11 +14,7 @@ class Admin::ImagesController < AdminController
     add_breadcrumb "Images"
     @images = @owner.images.sort_by(&:position)
     if @owner.images_count.blank?
-      if @owner.is_a?(Property)
-        redirect_to [:add_multiple, :admin, @owner, :image]
-      else
-        redirect_to [:new, :admin, @owner, :image]
-      end
+      redirect_to [:new, :admin, @owner, :image]
     end
   end
 
