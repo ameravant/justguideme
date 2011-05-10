@@ -9,7 +9,7 @@
 
 -form_for [:admin, @owner], :html => { :multipart => true, :onsubmit => "form_submitted('Uploading file and making thumbnails...')" } do |f|
   .add-images
-    =f.fields_for :images do |img|
+    -f.fields_for :images do |img|
       .img-form
         -if img.object.image && !img.object.new_record?
           = image_tag(img.object.image.url(:small), :alt => h(img.object.caption))

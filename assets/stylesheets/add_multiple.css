@@ -7,11 +7,12 @@
 	clear:left; 
 	border:2px solid gray;
 	margin-left:1em;
-	vertical-align:top;
+	vertical-align:baseline;
 	line-height:4em;
 }
 .img-form img {
 	border:1px solid gainsboro;
+	float:left;
 }
 #content-inner #main-column a.add-new-image, span.multi #property_submit {
 	background: green;
@@ -31,7 +32,7 @@ span.multi #property_submit {
 	float:right;
 	position:fixed;
 	top:12.5em;
-	right:6em;
+	right:8em;
 }
 .add-images{
 	clear:both;
