@@ -13,7 +13,7 @@
 .img-form img {
 	border:1px solid gainsboro;
 }
-#content-inner #main-column a.add-new-image, .add-images button {
+#content-inner #main-column a.add-new-image, span.multi #property_submit {
 	background: green;
 	color:white;
 	font-size:1.3em;
@@ -23,12 +23,15 @@
 	font-weight:bold;
 	float:left;
 }
-#content-inner #main-column a.add-new-image:hover, .add-images button:hover{
+#content-inner #main-column a.add-new-image:hover, span.multi #property_submit:hover{
 	background:darkblue;
 	text-decoration:none;
 }
-.add-images button {
+span.multi #property_submit {
 	float:right;
+	position:fixed;
+	top:12.5em;
+	right:6em;
 }
 .add-images{
 	clear:both;
