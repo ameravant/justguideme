@@ -64,6 +64,8 @@
               %span.event_tag.event_tag_soon tomorrow
             - elsif event.this_week?
               %span.event_tag.event_tag_this_week this week
+          -unless event.property.status == "Active" || event.property.status.blank?
+            %span{:class=>"#{event.property.status.downcase}"}=event.property.status
           - if @cms_config['features']['event_registration']
             - if event.registration? and event.date_and_time >= Datevent.tomorrow.to_time
               -# if event.registration_spots?

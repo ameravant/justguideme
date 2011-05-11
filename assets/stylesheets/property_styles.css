@@ -1,0 +1,12 @@
+span.sold{
+	background:red;
+}
+span.pending{
+	background:green;
+}
+span.sold, span.pending{
+	float:right;
+	padding:3px;
+	color:#fff;
+	width:auto;
+}

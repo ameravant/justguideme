@@ -109,6 +109,7 @@
           %span.strikethrough= number_to_currency(@property.asking_price)
         - else
           %span.price= number_to_currency(@property.asking_price)
+      =display_status(@property)
   - unless @property.beds_count.blank? and @property.baths_count.blank?
     #property-size
       = pluralize(@property.beds_count, "Bed")

@@ -12,6 +12,9 @@ class RegionsController < ApplicationController
     add_breadcrumb "Regions", regions_path
     @region = Region.find(params[:id])
     add_breadcrumb @region.title
+    @active_properties = @region.properties.active.by_price
+    @sold_properties = @region.properties.sold.by_price
+    @pending_properties = @region.properties.pending.by_price
     @properties = Property.all(:joins => ['LEFT OUTER JOIN people ON people.id = properties.person_id'], :conditions =>[ "region_id = ? and confirmed = ? and sold = ?", @region.id, true, false], :order => "reduced_price asc")
   end
   
