@@ -9,9 +9,9 @@ class Admin::PropertiesController < AdminController
   end
   
   def update
-    state = params[:property][:status] == "Sold"
-    params[:property][:sold] = state
-    params[:property][:active] = !state
+    # state = params[:property][:status] == "Sold"
+    #     params[:property][:sold] = state
+    #     params[:property][:active] = !state
     if @property.update_attributes(params[:property])
       flash[:message] = "Property updated successfully"
       redirect_to admin_properties_path
