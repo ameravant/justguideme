@@ -44,8 +44,9 @@
   = clear
   - if @person.properties.size > 0
     %h2 Property Listings
-    %ul.recent_articles.list_of_links
-      -for status in ["Active", "Pending", "Sold"]
+    -for status in ["Active", "Pending", "Sold"]
+    %h3=status
+      %ul.recent_articles.list_of_links
         - for property in @person.properties.send(status.downcase.to_sym).by_price
           - if property.available
             %li
