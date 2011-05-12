@@ -24,6 +24,9 @@
 	font-weight:bold;
 	float:left;
 }
+#content-inner #main-column a.add-new-image {
+	margin-left:9px;
+}
 #content-inner #main-column a.add-new-image:hover, span.multi #property_submit:hover{
 	background:darkblue;
 	text-decoration:none;

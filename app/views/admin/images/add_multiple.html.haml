@@ -15,14 +15,14 @@
           = image_tag(img.object.image.url(:small), :alt => h(img.object.caption))
           %span
             =img.label :title
-            =img.text_field :title
+            =img.text_field :title, :value => img.object.title
             =img.label :image
             =img.file_field :image
         -else
           %span{:style => "margin-left:7.3em;"}
             =img.label :title
-            =img.text_field :title
+            =img.text_field :title, :value => (!img.object.title.blank? ? img.object.title : img.object.formatted_address)
             =img.label :image
             =img.file_field :image
-  %span.multi= f.submit
+  %span.multi=f.submit "Save Changes", :disable_with => "Processing..."
   
