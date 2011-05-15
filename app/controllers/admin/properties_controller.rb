@@ -11,7 +11,11 @@ class Admin::PropertiesController < AdminController
   def update
     if @property.update_attributes(params[:property])
       flash[:message] = "Property updated successfully"
-      redirect_to admin_properties_path
+      if request.referrer =~ /add_multiple$/i
+        redirect_to [:admin, @property, :images]
+      else
+        redirect_to admin_properties_path
+      end
     else
       render :action => "edit"
     end
@@ -35,7 +39,7 @@ class Admin::PropertiesController < AdminController
   
   def new
     @property = Property.new
-    @property.events.build
+    @property.events.build    
   end
   
   def destroy

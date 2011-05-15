@@ -14,6 +14,11 @@ class Property < ActiveRecord::Base
   validates_presence_of :city
   validates_presence_of :asking_price
   after_update :save_events
+  accepts_nested_attributes_for :images
+  named_scope :pending, {:conditions => "status = 'Pending'"}
+  named_scope :sold, {:conditions => "status = 'Sold'"}
+  named_scope :active, {:conditions => "status = 'Active'"}
+  named_scope :by_price, {:order => "reduced_price ASC"}
 
   def formatted_address
     "#{self.address}, #{self.city}, #{self.state} #{self.zip}"
@@ -32,7 +37,7 @@ class Property < ActiveRecord::Base
   end
   
   def available
-    !self.sold?
+    !self.sold? || self.status != "Sold"
   end
   
   def existing_events=(events)     

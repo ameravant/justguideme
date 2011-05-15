@@ -109,6 +109,7 @@
           %span.strikethrough= number_to_currency(@property.asking_price)
         - else
           %span.price= number_to_currency(@property.asking_price)
+      =display_status(@property)
   - unless @property.beds_count.blank? and @property.baths_count.blank?
     #property-size
       = pluralize(@property.beds_count, "Bed")
@@ -139,20 +140,23 @@
     - unless @property.person.profile.blank?
       - if @property.person.properties.size > 1
         .panel
-          %ul.list-of-properties
-            - for property in @property.person.properties
-              %li
-                - unless property.images.empty?
-                  = link_to(image_tag(property.images.first.image(:small), :style => "float: left; margin: 0 10px 10px 0;", :alt => property.formatted_address, :title => property.formatted_address), [@region, property])
-                = link_to(property.formatted_address, [@region, property])
-                - unless property.date_listed.blank?
-                  %br
-                  %strong Date Listed:
-                  = property.date_listed.strftime("%b %d, %Y")
-                %br
-                %strong Price:
-                = number_to_currency(property.reduced_price)
-                = clear
+          -for status in ["Active", "Pending", "Sold"]
+            -if @property.person.properties.send(status.downcase.to_sym).by_price.any?
+              %h3=status
+              %ul.list-of-properties
+                - for property in @property.person.properties.send(status.downcase.to_sym).by_price
+                  %li
+                    - unless property.images.empty?
+                      = link_to(image_tag(property.images.first.image(:small), :style => "float: left; margin: 0 10px 10px 0;", :alt => property.formatted_address, :title => property.formatted_address), [@region, property])
+                    = link_to(property.formatted_address + display_status(property), [@region, property])                  
+                    - unless property.date_listed.blank?
+                      %br
+                      %strong Date Listed:
+                      = property.date_listed.strftime("%b %d, %Y")
+                    %br
+                    %strong Price:
+                    = number_to_currency(property.reduced_price)
+                    = clear
     - unless @property.events.empty?
       .panel
         %ul.list-of-open-houses
@@ -260,3 +264,5 @@
             = simple_format(e.blurb) 
   = clear
 = clear
+- content_for :head do
+  = stylesheet_link_tag "/plugin_assets/justguideme/stylesheets/property_styles.css"
