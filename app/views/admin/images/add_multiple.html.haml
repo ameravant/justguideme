@@ -15,13 +15,13 @@
           = image_tag(img.object.image.url(:small), :alt => h(img.object.caption))
           %span
             =img.label :title
-            =img.text_field :title, :value => ((img.object.title && img.object.title.size > 3) ? img.object.title : img.object.property.formatted_address)
+            =img.text_field :title, :value => ((img.object.title && img.object.title.size > 3) ? img.object.title : img.object.viewable.formatted_address)
             =img.label :image
             =img.file_field :image
         -else
           %span{:style => "margin-left:7.3em;"}
             =img.label :title
-            =img.text_field :title, :value => img.object.property.formatted_address
+            =img.text_field :title, :value => img.object.viewable.formatted_address
             =img.label :image
             =img.file_field :image
   %span.multi
