@@ -27,5 +27,6 @@
   %span.multi
     -fancy_submit [:admin, @owner] do
       =f.submit "Save this"
+%span.hidden-for-js= @owner.formatted_address
   
   

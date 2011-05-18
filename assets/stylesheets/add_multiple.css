@@ -41,3 +41,6 @@ span.multi .submit {
 	clear:both;
 	margin-top:3em;
 }
+.hidden-for-js{
+	display:none;
+}
