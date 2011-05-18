@@ -65,7 +65,7 @@
             - elsif event.this_week?
               %span.event_tag.event_tag_this_week this week
           -unless event.property.status == "Active" || event.property.status.blank?
-            %span
+            %span.status
               Status: 
               %span{:class=>"#{event.property.status.downcase}"}=event.property.status
           - if @cms_config['features']['event_registration']

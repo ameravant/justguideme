@@ -10,3 +10,6 @@ span.sold, span.pending{
 	color:#fff;
 	width:auto;
 }
+span.status {
+	margin-top:4px;
+}
