@@ -11,5 +11,7 @@ span.sold, span.pending{
 	width:auto;
 }
 span.status {
-	margin-top:4px;
+	float:right;
+	margin-top:20px;
+	margin-right:11.5em;
 }
