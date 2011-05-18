@@ -21,7 +21,7 @@
         -else
           %span{:style => "margin-left:7.3em;"}
             =img.label :title
-            =img.text_field :title, :value => (!img.object.title.blank? ? img.object.title : img.object.formatted_address)
+            =img.text_field :title, :value => ((img.object.title && img.object.title.size > 3) ? img.object.title : img.object.formatted_address)
             =img.label :image
             =img.file_field :image
   %span.multi
