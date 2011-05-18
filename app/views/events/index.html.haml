@@ -65,7 +65,9 @@
             - elsif event.this_week?
               %span.event_tag.event_tag_this_week this week
           -unless event.property.status == "Active" || event.property.status.blank?
-            %span{:class=>"#{event.property.status.downcase}"}=event.property.status
+            %span
+              Status: 
+              %span{:class=>"#{event.property.status.downcase}"}=event.property.status
           - if @cms_config['features']['event_registration']
             - if event.registration? and event.date_and_time >= Datevent.tomorrow.to_time
               -# if event.registration_spots?
@@ -87,3 +89,5 @@
     div.event_description { line-height: 1em; }
     div.event_description h3 { margin-bottom: 0; }
     div.event_date { line-height: 1em; }
+  = stylesheet_link_tag "/plugin_assets/justguideme/stylesheets/property_styles.css"
+    
