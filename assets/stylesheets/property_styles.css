@@ -1,5 +1,6 @@
 span.sold{
 	background:red;
+	line-height:1.3em;
 }
 span.pending{
 	background:green;
