@@ -5,6 +5,10 @@ span.sold{
 span.pending{
 	background:green;
 }
+#main-column #member a span {
+	text-decoration:none;
+}
+
 span.sold, span.pending{
 	padding:3px;
 	margin:5px;
