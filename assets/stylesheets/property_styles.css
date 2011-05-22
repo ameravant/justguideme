@@ -5,10 +5,12 @@ span.sold{
 span.pending{
 	background:green;
 }
-#main-column #member a span {
+#main-column #member a.auto-width span {
 	text-decoration:none;
 }
-
+#main-column #member .auto-width {
+	width:auto;
+}
 span.sold, span.pending{
 	padding:3px;
 	margin:5px;
