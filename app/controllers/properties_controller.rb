@@ -12,6 +12,9 @@ class PropertiesController < ApplicationController
     add_breadcrumb "Regions", regions_path
     add_breadcrumb @region.title, region_path(@region)
     add_breadcrumb @property.formatted_address
+    if params[:print] == "true"
+      render :layout => false
+    end
   end
   
   private

@@ -1,4 +1,4 @@
-resources :properties
+resources :properties, :collection => {:print => :get}, :member => {:print => :get}
 resources :property_searches
 resources :regions, :has_many => :properties
 resources :profiles, :collection => { :forgot_password => :any }, :has_many => :comments
