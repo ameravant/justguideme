@@ -1,10 +1,8 @@
 - content_for :meta_title do
   == #{@property.formatted_address} Property Listing
 
-
 - if params[:print] == "true"
   = render :partial => "print"
-  
 - else
   - content_for :head do
     :javascript
