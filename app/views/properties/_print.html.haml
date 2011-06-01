@@ -86,20 +86,6 @@
             = image_tag(image.image.url(:large), :alt => h(image.caption.blank? ? @property.formatted_address : image.caption), :id => "main-side-column-image")
             = "<div class=\"caption\">#{image.caption}</div>" unless image.caption.blank?
             = clear
-            - if @property.images_count > 1
-              .scrollable
-                .items
-                  - @property.images.sort_by(&:position).each_with_index do |image, i|
-                    - unless i == 0
-                      .image
-                        = link_to image_tag(image.image.url(:thumb), :title => h(image.caption.blank? ? @property.formatted_address : image.caption), :alt => h(image.caption.blank? ? @property.formatted_address : image.caption)), image.image.url(:large), :rel => "gallery", :class => "fancy"
-                = clear
-              - if @property.images_count > 6
-                = "<a class=\"prev\">&lt;</a>"
-                .navi
-                = "<a class=\"next\">&gt;</a>"
-                = "<span class=\"gray small\">#{pluralize(@property.images_count, 'image')}</span>"
-                = clear
 
         #map-outer.side-column-section
           #google_map
