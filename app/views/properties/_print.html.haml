@@ -4,11 +4,34 @@
     %meta{'http-equiv' => "Content-type", :content => "text/html; charset=utf-8"}
     = javascript_include_tag :defaults
     - address = "#{@property.address.strip}, #{@property.city}, #{@property.state}"
-    = render :partial => "google_maps_includes"
+    ==<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{ @cms_config["#{'development_' if Rails.env.development?}keys"]['google_maps'] }" type="text/javascript"></script>
+    :javascript
+      Event.observe(window, "load", function() {
+      if (GBrowserIsCompatible()) {
+      var map = new GMap2($("google_map"));
+      map.addControl(new GSmallMapControl());
+      // map.addControl(new GOverviewMapControl());
+      // map.addControl(new GMapTypeControl());
+      map.setMapType(G_NORMAL_MAP);
+      var geocoder = new GClientGeocoder();
+      var myLatLon = geocoder.getLatLng(
+      "#{address}", function(point) {
+      if (point) map.setCenter(point, 15);
+      if (point) map.addOverlay(new GMarker(point));
+      }
+      );
+      }
+      });
+      Event.observe(window, "unload", GUnload)
     = stylesheet_link_tag "/plugin_assets/justguideme/stylesheets/print.css"
-
+    %script{:type => "text/javascript", :defer => "defer"}
+      function printpage() {
+      window.print();
+      window.close();
+      }
     %style{:type => "text/css"}
-      div#side-column { width: 30%; float: right; margin: 0 0 0 10px; }
+      a { color: #D0122A; }
+      div#side-column { width: 30%; float: right; margin: 0 0 0 10px; border-left: 1px solid #999; padding-left: 10px; }
       div.panes { border: 1px solid #999; background: #fff; padding: 10px; }
       label { display: block; font-size: 1.3em; line-height: 2em; margin: 10px 0 0; color: #333; }
       label.inline { display: inline; }
@@ -20,20 +43,17 @@
       div.panes { color: #222; }
       div.panes h2 { color: #222; }
       div.panes p { margin: 0; padding: .5em 0 1.5em; }
-      div#map-outer { width: 100%; border: 1px solid #999; background: #F3F1EA; }
-      div#google_map { width: 100%; height: 150px; }
-      div#side-column .images { width: 278px; text-align: left; }
-      div#side-column .scrollable { width: 278px; }
+      div#map-outer { width: 100%; }
+      div#google_map { width: 100%; height: 200px; }
       div#property-price { margin: 0 0 8px; }
       div#property-price #price { font-size: 1.4em; }
       div#property-price .strikethrough { text-decoration: line-through; color: #999; }
       span#main-address { font-size: 1.2em; font-weight: bold; }
       address { font-style: normal; line-height: 1em; margin: 0 0 8px; }
       h1 { padding-bottom: 10px; }
-      div#primary-info, #contact-info, div.images { border: 1px solid #999; background: #FFFCCF; padding: 10px; margin-bottom: 10px; }
       span.price { color: #3F9200; font-weight: bold; }
       div#owner-name { font-size: 1.2em; font-weight: bold; margin-bottom: 8px; }
-      div#contact-info, div.images { background: #F3F1EA; line-height: 1.4em; }
+      div#contact-info, div.images { line-height: 1.4em; margin-bottom: 10px; }
       div#contact-info-detail { font-size: .85em; }
       div.panel h3 { margin: 0; padding: .5em 0 1.5em; }
       ul.list-of-properties, ul.list-of-open-houses { margin: 0; padding: 0; }
@@ -47,20 +67,26 @@
       div.pane { display: none; }
       div#login-box { display: none; }
       div#pre-content-outer { display: none; }
-      div#main-column { float: left; width: 68% }
+      div#main-column { float: left; width: 66% }
       div.print-panes { display: block; font-size: .8em; line-height: 1.4em; }
       div.screen { display: none; }
       img#main-side-column-image { width: 100%; text-align: center; margin: 0 0 10px 0; }
       div#footer { font-size: .8em; }
       div#contact-info h2 { margin: 0; padding: 0; font-size: 1.2em; }
+      ==.profile-image { float: right; margin: 0 0 5px 5px; width: 70px; }
+      ==.print { height: 16px; line-height: 18px; text-decoration: none; font-weight: bold; float: right; display: block; margin-bottom: 5px; font-size: 16px; background: transparent url('http://www.site-ninja.com/plugin_assets/siteninja_core/images/icons/gray/16x16/Printer.png') no-repeat left center; padding-left: 20px; vertical-alignment: middle; }
+      ==#footer { display: block; clear: both; width: 100%; }
+      ==#logo { width: 175px; margin-bottom: 10px; }
+    %style{:type => "text/css", :media => "print"}
+      a.print { display: none; }
+      body { font-family: helvetica, tahoma, sans-serif; font-size: 10pt; margin: 0; padding: 0; }
   %body
-
-    = image_tag("/plugin_assets/justguideme/images/justguideme-logo.png", :alt => @cms_config['website']['name'], :title => @cms_config['website']['name'])
-    %h1= address
+    = link_to("Print", "javascript:null(0)", :onclick => "printpage()", :class => "print")
+    = image_tag("/plugin_assets/justguideme/images/justguideme-logo.png", :alt => @cms_config['website']['name'], :title => @cms_config['website']['name'], :id => "logo")
+    %div{:style => "width: 100%; clear: both;"}
     #side-column
       - unless @property.person.profile.blank?
         #contact-info
-          %h2 Contact Information
           %div
             = image_tag(@property.person.avatar.url(:profile_thumb), :alt => "Profile photo for %s" % @property.person.name, :class => "profile-image") if @property.person.avatar_file_name
             - if @property.person.profile
@@ -75,7 +101,7 @@
                   = @property.person.phone
                   %br
                 - if @property.person.profile.show_email
-                  = @property.person.email
+                  = link_to(@property.person.email, @property.person.email)
                   %br
                 - if @property.person.profile.show_web_address
                   = link_to(@property.person.web_address, @property.person.web_address)
@@ -145,6 +171,6 @@
                   = simple_format(e.blurb) 
         = clear
         = clear
-= clear
+%div{:style => "clear: both;"}
 #footer
   = @settings.footer_text.gsub('#YEAR#', Date.today.year.to_s)
