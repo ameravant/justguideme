@@ -113,7 +113,7 @@
                       %fieldset
                         = submit_tag "", :id => "find-a-home-button"
 
-                        = select :search, :region_id, Region.all.sort_by(&:title).collect {|r| [r.title, r.id]}, :include_blank => "Select a Neighborhood", :style => "width: 275px;"
+                        = select :search, :region_id, Region.all.sort_by(&:title).collect {|r| [r.title, r.id]}, :include_blank => "Select a City", :style => "width: 275px;"
                         = select :search, :property_type_id, PropertyType.all.sort_by(&:title).collect {|pt| [pt.title, pt.id]}, :include_blank => "Select a Property Type"
                         %br
                         Price Range: 
