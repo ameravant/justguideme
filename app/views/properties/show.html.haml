@@ -98,10 +98,9 @@
       div#side-column { width: 250px; float: right; display: block; }
       div.print-panes { display: block; width: 450px; float: left; font-size: .8em; line-height: 1.4em; }
       div.screen { display: none; }
-  - content_for :side_column do
-    = link_to("Print", "javascript:void(0)", :onclick => "window.open ('#{property_path(@property)}?print=true','printproperty','menubar=0,width=700,height=500');", :class => "print")
-    = clear
+
   #primary-info{:class => (@property.sold? ? "property-sold" : "property-available")}
+    = link_to("Print", "javascript:void(0)", :onclick => "window.open ('#{property_path(@property)}?print=true','printproperty','menubar=0,width=700,height=500');", :class => "print")
     %address
       %span#main-address= @property.address + ", "
       == #{@property.city}, #{@property.state} #{@property.zip}
