@@ -12,7 +12,7 @@
     = javascript_include_tag "/plugin_assets/siteninja_core/javascripts/animatedcollapse.js"
     = #javascript_include_tag "http://cdn.jquerytools.org/1.0.2/jquery.tools.min.js"
     = #javascript_include_tag "http://cdn.jquerytools.org/1.1.2/jquery.tools.min.js"
-    = javascript_include_tag "/plugin_assets/siteninja_core/javascripts/jquery.tools.min.js"
+    = javascript_include_tag "/plugin_assets/siteninja_core/javascripts/jquery.tools.min.js" unless @calendar_select
     - # noConflict makes jQuery play nicely with Prototype
     = javascript_tag "jQuery.noConflict();"
     = javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? # Enable jQuery to asyncronously call the app
